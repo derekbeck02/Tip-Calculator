@@ -6,6 +6,9 @@ import tkinter as tk
 import ttkbootstrap as tb
 from tkinter import ttk
 
+def calculateButtonFunction():
+    print("button pressed")
+
 def main():
     
     # Window creation
@@ -25,11 +28,11 @@ def main():
 
     # Tk Variables Init
     totalBefore = tk.StringVar()
-    fifteenPercentText = tk.StringVar()
-    eighteenPercentText = tk.StringVar()
-    twentyPercentText = tk.StringVar()
+    fifteenPercentText = tk.StringVar(value = "15% : $15.00")
+    eighteenPercentText = tk.StringVar(value = "18% : $18.00")
+    twentyPercentText = tk.StringVar(value = "20% : $20.00")
     customPercentPercentage = tk.StringVar()
-    customPercentText = tk.StringVar()
+    customPercentText = tk.StringVar(value = "25% : $25.00")
 
     # Title Label
     titleLabel = ttk.Label(
@@ -58,6 +61,7 @@ def main():
     calculateButton = ttk.Button(
         window,
         text = "Calculate",
+        command = calculateButtonFunction,
         )
     calculateButton.pack()
 
@@ -74,8 +78,7 @@ def main():
     # 15 Percent Label
     fifteenPercentLabel = ttk.Label(
         window,
-        # Placeholder text
-        text = "15% : $15.00",
+        textvariable = fifteenPercentText,
         font = f"{mainFont} {smallFontSize} bold"
     )
     fifteenPercentLabel.pack(pady = (generalYPadding - 10))
@@ -83,8 +86,7 @@ def main():
     # 18 Percent Label
     eighteenPercentLabel = ttk.Label(
         window,
-        # Placeholder text
-        text = "18% : $18.00",
+        textvariable = eighteenPercentText,
         font = f"{mainFont} {smallFontSize} bold"
     )
     eighteenPercentLabel.pack()
@@ -92,8 +94,7 @@ def main():
     # 20 Percent Label
     twentyPercentLabel = ttk.Label(
         window,
-        # Placeholder text
-        text = "20% : $20.00",
+        textvariable = twentyPercentText,
         font = f"{mainFont} {smallFontSize} bold"
     )
     twentyPercentLabel.pack(pady = generalYPadding)
@@ -109,7 +110,6 @@ def main():
     # Custom Percent Entry
     customPercentEntry = ttk.Entry(
         window,
-        # Placeholder text
         textvariable = customPercentPercentage,
     )
     customPercentEntry.pack()
@@ -117,8 +117,7 @@ def main():
     # Custom Percent
     customPercentLabel = ttk.Label(
         window,
-        # Placeholder text
-        text = "25% : $25.00",
+        textvariable = customPercentText,
         font = f"{mainFont} {smallFontSize} bold"
     )
     customPercentLabel.pack(pady = generalYPadding)
