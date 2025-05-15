@@ -21,6 +21,7 @@ def main():
     mainFont = "MV_Boli"
     titleFontSize = 35
     smallFontSize = 15
+    xsmallFontSize = 10
 
     # Tk Variables Init
     totalBefore = tk.StringVar()
@@ -60,6 +61,16 @@ def main():
         )
     calculateButton.pack()
 
+    # Input Error Label
+    inputErrorLabel = ttk.Label(
+        window,
+        # Placeholder text
+        text = "Invalid input. Please try again.",
+        font = f"{mainFont} {xsmallFontSize}",
+        style = "danger"
+    )
+    inputErrorLabel.pack()
+
     # 15 Percent Label
     fifteenPercentLabel = ttk.Label(
         window,
@@ -67,7 +78,7 @@ def main():
         text = "15% : $15.00",
         font = f"{mainFont} {smallFontSize} bold"
     )
-    fifteenPercentLabel.pack(pady = generalYPadding)
+    fifteenPercentLabel.pack(pady = (generalYPadding - 10))
 
     # 18 Percent Label
     eighteenPercentLabel = ttk.Label(
