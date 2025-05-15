@@ -7,9 +7,6 @@ import ttkbootstrap as tb
 from tkinter import ttk
 
 def main():
-
-    # Variables Init
-    totalBefore = tk.StringVar()
     
     # Window creation
     window = tb.Window(
@@ -17,6 +14,9 @@ def main():
         title = "Tip Calculator",
         iconphoto = "coin.png")
     window.geometry("500x600")
+
+    # Variables Init
+    totalBefore = tk.StringVar()
 
     # Input label
     inputLabel = ttk.Label(
