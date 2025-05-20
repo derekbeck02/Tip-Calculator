@@ -10,9 +10,12 @@ from decimal import Decimal
 def calculateTip(tipPercentage, total):
     # Returns a string formatted for currency
     # tipPercentage should be formatted as an integer (ex. 15% would be 15)
+    # total should be a float
+ 
     # Tip calculation
-    tipDecimal = (tipPercentage / 100) 
+    tipDecimal = tipPercentage / 100 
     tip = tipDecimal * total
+
     # Format tip
     tip = f"{tip:.2f}"
     return tip
@@ -22,21 +25,37 @@ def calculateTip(tipPercentage, total):
 def calculateButtonFunction(
         inputBox,basePercentText1,basePercentText2,basePercentText3,customPercentText,customPercentPercentage,errorLabel,
         basePercentage1,basePercentage2,basePercentage3):
+    
+    # Init var that will check if valid input has occured
+    validInput = False
+    
     # Get what the user put in the total input box & check if it's a valid cash amount
     try:
         # If putting the user input into a Decimal does not work, it will cause an error
         Decimal(inputBox.get())
+        validInput = True
         inputedTotal = float(inputBox.get())
+
         # Reset error message
         errorLabel.configure(text = "")
+
         # For each tip ammount, calculate the tip
         baseTip1 = calculateTip(basePercentage1, inputedTotal)
-       # baseTip2 = calculateTip(basePercentage2, inputedTotal)
-       # baseTip3 = calculateTip(basePercentage3, inputedTotal)
-        # Set tip label text to the calculated tips
+        baseTip2 = calculateTip(basePercentage2, inputedTotal)
+        baseTip3 = calculateTip(basePercentage3, inputedTotal)
+
     except Exception as error:
         print(f"Error : {error}")
         errorLabel.configure(text = "Invalid Input. Please Try Again.")
+        if inputBox.get() == "hello":
+            errorLabel.configure(text = "Hello!")
+
+    # If the calculation has happened (at least once)
+    if validInput:
+        # Set tip label text to the calculated tips
+        basePercentText1.set(f"{basePercentage1}% : ${baseTip1}")
+        basePercentText2.set(f"{basePercentage2}% : ${baseTip2}")
+        basePercentText3.set(f"{basePercentage3}% : ${baseTip3}")
 
 def main():
     # Window creation
@@ -61,9 +80,9 @@ def main():
 
     # Tk Variables Init
     totalBefore = tk.StringVar()
-    basePercentText1 = tk.StringVar(value = f"{basePercentage1}% : {basePercentage1}.00")
-    basePercentText2 = tk.StringVar(value = f"{basePercentage2}% : {basePercentage2}.00")
-    basePercentText3 = tk.StringVar(value = f"{basePercentage3}% : {basePercentage3}.00")
+    basePercentText1 = tk.StringVar(value = f"{basePercentage1}% : ${basePercentage1}.00")
+    basePercentText2 = tk.StringVar(value = f"{basePercentage2}% : ${basePercentage2}.00")
+    basePercentText3 = tk.StringVar(value = f"{basePercentage3}% : ${basePercentage3}.00")
     customPercentPercentage = tk.StringVar()
     customPercentText = tk.StringVar(value = f"{initCustomPercentage}% : ${initCustomPercentage}.00")
     
@@ -96,9 +115,8 @@ def main():
         window,
         text = "Calculate",
         command = lambda : calculateButtonFunction(
-            inputBox,basePercentage1,basePercentage2,basePercentage3,
-            customPercentText,customPercentPercentage,errorLabel,basePercentText1,
-            basePercentText2,basePercentText3),
+            inputBox,basePercentText1,basePercentText2,basePercentText3,customPercentText,
+            customPercentPercentage,errorLabel,basePercentage1,basePercentage2,basePercentage3),
         )
     calculateButton.pack()
 
