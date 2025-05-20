@@ -5,9 +5,59 @@
 import tkinter as tk
 import ttkbootstrap as tb
 from tkinter import ttk
+from decimal import Decimal
+
+def calculateTip(tipPercentage, total):
+    # Returns a string formatted for currency
+    # tipPercentage should be formatted as an integer (ex. 15% would be 15)
+    # total should be a float
+ 
+    # Tip calculation
+    tipDecimal = tipPercentage / 100 
+    tip = tipDecimal * total
+
+    # Format tip
+    tip = f"{tip:.2f}"
+    return tip
+
+
+
+def calculateButtonFunction(
+        inputBox,basePercentText1,basePercentText2,basePercentText3,customPercentText,customPercentPercentage,errorLabel,
+        basePercentage1,basePercentage2,basePercentage3):
+    
+    # Init var that will check if valid input has occured
+    validInput = False
+    
+    # Get what the user put in the total input box & check if it's a valid cash amount
+    try:
+        # If putting the user input into a Decimal does not work, it will cause an error
+        Decimal(inputBox.get())
+        validInput = True
+        inputedTotal = float(inputBox.get())
+
+        # Reset error message
+        errorLabel.configure(text = "")
+
+        # For each tip ammount, calculate the tip
+        baseTip1 = calculateTip(basePercentage1, inputedTotal)
+        baseTip2 = calculateTip(basePercentage2, inputedTotal)
+        baseTip3 = calculateTip(basePercentage3, inputedTotal)
+
+    except Exception as error:
+        print(f"Error : {error}")
+        errorLabel.configure(text = "Invalid Input. Please Try Again.")
+        if inputBox.get() == "hello":
+            errorLabel.configure(text = "Hello!")
+
+    # If the calculation has happened (at least once)
+    if validInput:
+        # Set tip label text to the calculated tips
+        basePercentText1.set(f"{basePercentage1}% : ${baseTip1}")
+        basePercentText2.set(f"{basePercentage2}% : ${baseTip2}")
+        basePercentText3.set(f"{basePercentage3}% : ${baseTip3}")
 
 def main():
-    
     # Window creation
     window = tb.Window(
         themename = "superhero",
@@ -21,14 +71,21 @@ def main():
     mainFont = "MV_Boli"
     titleFontSize = 35
     smallFontSize = 15
+    xsmallFontSize = 10
+    basePercentage1 = 15
+    basePercentage2 = 18
+    basePercentage3 = 20
+    initCustomPercentage = 25
+    initErrorMessage = ""
 
     # Tk Variables Init
     totalBefore = tk.StringVar()
-    fifteenPercentText = tk.StringVar()
-    eighteenPercentText = tk.StringVar()
-    twentyPercentText = tk.StringVar()
+    basePercentText1 = tk.StringVar(value = f"{basePercentage1}% : ${basePercentage1}.00")
+    basePercentText2 = tk.StringVar(value = f"{basePercentage2}% : ${basePercentage2}.00")
+    basePercentText3 = tk.StringVar(value = f"{basePercentage3}% : ${basePercentage3}.00")
     customPercentPercentage = tk.StringVar()
-    customPercentText = tk.StringVar()
+    customPercentText = tk.StringVar(value = f"{initCustomPercentage}% : ${initCustomPercentage}.00")
+    
 
     # Title Label
     titleLabel = ttk.Label(
@@ -57,35 +114,45 @@ def main():
     calculateButton = ttk.Button(
         window,
         text = "Calculate",
+        command = lambda : calculateButtonFunction(
+            inputBox,basePercentText1,basePercentText2,basePercentText3,customPercentText,
+            customPercentPercentage,errorLabel,basePercentage1,basePercentage2,basePercentage3),
         )
     calculateButton.pack()
+
+    # Error Label
+    errorLabel = ttk.Label(
+        window,
+        # Placeholder text
+        text = f"{initErrorMessage}",
+        font = f"{mainFont} {xsmallFontSize}",
+        style = "danger"
+    )
+    errorLabel.pack()
 
     # 15 Percent Label
     fifteenPercentLabel = ttk.Label(
         window,
-        # Placeholder text
-        text = "15% : $15.00",
+        textvariable = basePercentText1,
         font = f"{mainFont} {smallFontSize} bold"
     )
-    fifteenPercentLabel.pack(pady = generalYPadding)
+    fifteenPercentLabel.pack(pady = generalYPadding - 10)
 
     # 18 Percent Label
     eighteenPercentLabel = ttk.Label(
         window,
-        # Placeholder text
-        text = "18% : $18.00",
+        textvariable = basePercentText2,
         font = f"{mainFont} {smallFontSize} bold"
     )
-    eighteenPercentLabel.pack()
+    eighteenPercentLabel.pack(pady = generalYPadding - 10)
 
     # 20 Percent Label
     twentyPercentLabel = ttk.Label(
         window,
-        # Placeholder text
-        text = "20% : $20.00",
+        textvariable = basePercentText3,
         font = f"{mainFont} {smallFontSize} bold"
     )
-    twentyPercentLabel.pack(pady = generalYPadding)
+    twentyPercentLabel.pack(pady = generalYPadding - 10)
 
     # Custom Percent Text Label
     customPercentTextLabel = ttk.Label(
@@ -98,7 +165,6 @@ def main():
     # Custom Percent Entry
     customPercentEntry = ttk.Entry(
         window,
-        # Placeholder text
         textvariable = customPercentPercentage,
     )
     customPercentEntry.pack()
@@ -106,8 +172,7 @@ def main():
     # Custom Percent
     customPercentLabel = ttk.Label(
         window,
-        # Placeholder text
-        text = "25% : $25.00",
+        textvariable = customPercentText,
         font = f"{mainFont} {smallFontSize} bold"
     )
     customPercentLabel.pack(pady = generalYPadding)
