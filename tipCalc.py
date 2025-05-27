@@ -20,8 +20,6 @@ def calculateTip(tipPercentage, total):
     tip = f"{tip:.2f}"
     return tip
 
-
-
 def calculateButtonFunction(
         inputBox,basePercentText1,basePercentText2,basePercentText3,customPercentText,customPercentPercentage,errorLabel,
         basePercentage1,basePercentage2,basePercentage3):
@@ -92,7 +90,6 @@ def main():
     customPercentPercentage = tk.StringVar()
     customPercentText = tk.StringVar(value = f"{initCustomPercentage}% : ${initCustomPercentage}.00")
     
-
     # Title Label
     titleLabel = ttk.Label(
         window,
@@ -185,7 +182,6 @@ def main():
 
     # Run
     window.mainloop()
-
 
 if __name__ == "__main__":
     main()
