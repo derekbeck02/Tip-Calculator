@@ -29,12 +29,17 @@ def calculateButtonFunction(
     # Init var that will check if valid input has occured
     validInput = False
     
-    # Get what the user put in the total input box & check if it's a valid cash amount
+    # Get what the user put in the total input box into a float & check if it's a valid cash amount
     try:
+        # Get user input & remove extra symbols
+        inputedTotal = inputBox.get()
+        inputedTotal = inputedTotal.replace("$", "")
+        inputedTotal = inputedTotal.replace(",", "")
+        inputedTotal = float(inputedTotal)
+
         # If putting the user input into a Decimal does not work, it will cause an error
-        Decimal(inputBox.get())
+        Decimal(inputedTotal)
         validInput = True
-        inputedTotal = float(inputBox.get())
 
         # Reset error message
         errorLabel.configure(text = "")
@@ -44,7 +49,8 @@ def calculateButtonFunction(
         baseTip2 = calculateTip(basePercentage2, inputedTotal)
         baseTip3 = calculateTip(basePercentage3, inputedTotal)
 
-    except Exception as error:
+    except Exception as error:        
+        # Debug console print
         print(f"Error : {error}")
         errorLabel.configure(text = "Invalid Input. Please Try Again.")
         if inputBox.get() == "hello":
