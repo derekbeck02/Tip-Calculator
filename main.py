@@ -22,7 +22,7 @@ def calculateTip(tipPercentage, total):
 
 def calculateButtonFunction(
         inputBox,basePercentText1,basePercentText2,basePercentText3,customPercentText,customPercentPercentage,errorLabel,
-        basePercentage1,basePercentage2,basePercentage3):
+        basePercentage1,basePercentage2,basePercentage3,initCustomPercentage):
     
     # Init var that will check if valid input has occured
     validInput = False
@@ -49,7 +49,7 @@ def calculateButtonFunction(
 
     except Exception as error:        
         # Debug console print
-        print(f"Error : {error}")
+        print(f"Total input error : {error}")
         errorLabel.configure(text = "Invalid Input. Please Try Again.")
         if inputBox.get() == "hello":
             errorLabel.configure(text = "Hello!")
@@ -60,6 +60,20 @@ def calculateButtonFunction(
         basePercentText1.set(f"{basePercentage1}% : ${baseTip1}")
         basePercentText2.set(f"{basePercentage2}% : ${baseTip2}")
         basePercentText3.set(f"{basePercentage3}% : ${baseTip3}")
+    
+    # Custom tip amounts:
+    # Get what the user put in the custom tip input box into a float & check if it's a valid percentage
+    try:
+        inputedCustom = customPercentPercentage.get()
+        inputedCustom = inputedCustom.replace("%", "")
+        inputedCustom = float(inputedCustom)
+        customTip = calculateTip(inputedCustom, inputedTotal)
+        customPercentText.set(f"{inputedCustom}% : ${customTip}")
+    except Exception as error:
+        print(f"Custom input error : {error}")
+        customTip = calculateTip(initCustomPercentage, inputedTotal)
+        customPercentText.set(f"{initCustomPercentage}% : ${customTip}")
+    
 
 def main():
     # Window creation
@@ -119,7 +133,7 @@ def main():
         text = "Calculate",
         command = lambda : calculateButtonFunction(
             inputBox,basePercentText1,basePercentText2,basePercentText3,customPercentText,
-            customPercentPercentage,errorLabel,basePercentage1,basePercentage2,basePercentage3),
+            customPercentPercentage,errorLabel,basePercentage1,basePercentage2,basePercentage3,initCustomPercentage),
         )
     calculateButton.pack()
 
