@@ -93,7 +93,7 @@ def main():
     basePercentage1 = 15
     basePercentage2 = 18
     basePercentage3 = 20
-    initCustomPercentage = 25
+    initCustomPercentage = 25.0
     initErrorMessage = ""
 
     # Tk Variables Init
