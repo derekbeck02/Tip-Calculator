@@ -76,6 +76,12 @@ def calculateButtonFunction(
     
 
 def main():
+
+    # Function so the tip calculations can be bound to a key
+    def doCalculations(event=None):
+        calculateButtonFunction(inputBox,basePercentText1,basePercentText2,basePercentText3,customPercentText,
+            customPercentPercentage,errorLabel,basePercentage1,basePercentage2,basePercentage3,initCustomPercentage)
+    
     # Window creation
     window = tb.Window(
         themename = "superhero",
@@ -193,6 +199,9 @@ def main():
         font = f"{mainFont} {smallFontSize} bold"
     )
     customPercentLabel.pack(pady = generalYPadding)
+
+    # Key binds
+    window.bind("<Return>", doCalculations)
 
     # Run
     window.mainloop()
