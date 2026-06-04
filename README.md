@@ -1,4 +1,4 @@
-# tip_calculator
+# GUI Tip Calcualtor
 
 Simple python tip calculator with tkinter / ttkbootstrap GUI
 
